@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Blog with Audio Reader</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <main class="container">
+        <header>
+            <h1 id="article-title">My blog article</h1>
+            <div class="player">
+                <audio id="audio" controls preload="metadata">
+                    <source src="article.ogg" type="audio/ogg">
+                    <track id="vtt-track" kind="subtitles" src="subtitles.vtt" srclang="en" default>
+                    Your browser does not support the audio element.
+                </audio>
+                <button id="playPause" aria-label="Play/Pause">▶</button>
+                <div id="time">00:00 / 00:00</div>
+            </div>
+        </header>
+
+        <article id="article">
+            <p data-para-id="p1" id="p1">This is an example sound file in Ogg Vorbis format</p>
+            <p data-para-id="p2" id="p2">from Wikipedia, the free encyclopedia.</p>
+        </article>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

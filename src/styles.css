@@ -1,0 +1,54 @@
+:root {
+    --accent: #ffcc00;
+    --highlight-bg: rgba(255, 204, 0, 0.12);
+    --highlight-border: rgba(255, 204, 0, 0.35);
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    line-height: 1.6;
+    margin: 0;
+    padding: 24px;
+    background: #fff;
+    color: #111;
+}
+
+.container {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.player {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+#playPause {
+    background: var(--accent);
+    border: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#time {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+article p {
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: background-color 160ms ease, box-shadow 160ms ease;
+    margin: 12px 0;
+}
+
+/* Highlight class applied to currently-read paragraph */
+.paragraph-highlight {
+    background: var(--highlight-bg);
+    border-left: 4px solid var(--highlight-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    color: #000;
+}
