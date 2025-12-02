@@ -1,0 +1,409 @@
+WEBVTT
+
+0
+00:00:00.479 --> 00:00:02.490
+Hash an introduction to concurrency.
+
+1
+00:00:03.559 --> 00:00:06.079
+Concurrency is an interesting word because it means
+
+2
+00:00:06.079 --> 00:00:08.279
+different things to different people in our field.
+
+3
+00:00:09.100 --> 00:00:10.689
+In addition to concurrency,
+
+4
+00:00:10.880 --> 00:00:13.329
+you may have heard the words asynchronous,
+
+5
+00:00:13.600 --> 00:00:14.250
+parallel,
+
+6
+00:00:14.439 --> 00:00:15.149
+or threaded,
+
+7
+00:00:15.399 --> 00:00:16.318
+bandied about.
+
+8
+00:00:17.110 --> 00:00:19.500
+Some people take these words to mean the same thing,
+
+9
+00:00:19.569 --> 00:00:23.350
+and other people very specifically delineate between each of those words.
+
+10
+00:00:23.670 --> 00:00:26.959
+If we're to spend an entire book's worth of time discussing concurrency,
+
+11
+00:00:27.270 --> 00:00:29.629
+it would be beneficial to first spend some time
+
+12
+00:00:29.629 --> 00:00:31.909
+discussing what we mean when we say concurrency.
+
+13
+00:00:33.020 --> 00:00:36.569
+We'll spend some time on the philosophy of concurrency in chapter 2,
+
+14
+00:00:36.939 --> 00:00:37.569
+but for now,
+
+15
+00:00:37.659 --> 00:00:39.819
+let's adopt a practical definition that will
+
+16
+00:00:39.819 --> 00:00:42.049
+serve as the foundation of our understanding.
+
+17
+00:00:42.740 --> 00:00:44.700
+When most people use the word concurrent,
+
+18
+00:00:44.900 --> 00:00:46.979
+they're usually referring to a process that
+
+19
+00:00:46.979 --> 00:00:50.180
+occurs simultaneously with one or more processes.
+
+20
+00:00:50.419 --> 00:00:52.659
+It is also usually implied that all of these
+
+21
+00:00:52.659 --> 00:00:55.729
+processes are making progress at about the same time.
+
+22
+00:00:56.060 --> 00:00:57.290
+Under this definition,
+
+23
+00:00:57.380 --> 00:00:59.380
+an easy way to think about this are people.
+
+24
+00:00:59.930 --> 00:01:02.200
+You are currently reading this sentence while others
+
+25
+00:01:02.200 --> 00:01:04.940
+in the world are simultaneously living their lives.
+
+26
+00:01:05.269 --> 00:01:07.339
+They are existing concurrently to you.
+
+27
+00:01:08.190 --> 00:01:10.860
+Concurrency is a broad topic in computer science,
+
+28
+00:01:11.029 --> 00:01:13.779
+and from this definition spring all kinds of topics
+
+29
+00:01:14.069 --> 00:01:14.620
+theory,
+
+30
+00:01:14.910 --> 00:01:16.569
+approaches to modeling concurrency,
+
+31
+00:01:16.949 --> 00:01:18.099
+correctness of logic,
+
+32
+00:01:18.230 --> 00:01:19.360
+practical issues,
+
+33
+00:01:19.629 --> 00:01:21.190
+even theoretical physics.
+
+34
+00:01:21.819 --> 00:01:24.610
+We'll touch on some of the ancillary topics throughout the book,
+
+35
+00:01:24.779 --> 00:01:27.059
+but we'll mostly stick to the practical issues that
+
+36
+00:01:27.059 --> 00:01:30.099
+involve understanding concurrency within the context of Go,
+
+37
+00:01:30.540 --> 00:01:31.199
+specifically
+
+38
+00:01:31.500 --> 00:01:33.690
+how Go chooses to model concurrency,
+
+39
+00:01:33.940 --> 00:01:35.730
+what issues arise from this model,
+
+40
+00:01:35.940 --> 00:01:39.339
+and how we can compose primitives within this model to solve problems.
+
+41
+00:01:40.220 --> 00:01:41.279
+In this chapter,
+
+42
+00:01:41.449 --> 00:01:43.410
+we'll take a broad look at some of the reasons
+
+43
+00:01:43.410 --> 00:01:46.720
+concurrency became such an important topic in computer science,
+
+44
+00:01:47.010 --> 00:01:49.760
+why concurrency is difficult and warrants careful study,
+
+45
+00:01:49.970 --> 00:01:51.519
+and most importantly,
+
+46
+00:01:51.769 --> 00:01:53.849
+the idea that despite these challenges,
+
+47
+00:01:54.050 --> 00:01:57.970
+Go can make programs clearer and faster by using its concurrency primitives.
+
+48
+00:01:58.989 --> 00:02:01.300
+As with most paths toward understanding,
+
+49
+00:02:01.470 --> 00:02:03.099
+we'll begin with a bit of history.
+
+50
+00:02:03.470 --> 00:02:07.150
+Let's first take a look at how concurrency became such an important topic.
+
+51
+00:02:08.070 --> 00:02:08.949
+Moore's Law,
+
+52
+00:02:09.089 --> 00:02:09.919
+web scale,
+
+53
+00:02:10.130 --> 00:02:11.399
+and the mess we're in.
+
+54
+00:02:12.360 --> 00:02:13.869
+In 1965,
+
+55
+00:02:14.080 --> 00:02:16.830
+Gordon Moore wrote a three-page paper that described both
+
+56
+00:02:16.830 --> 00:02:20.679
+the consolidation of the electronics market toward integrated circuits and
+
+57
+00:02:20.679 --> 00:02:22.720
+the doubling of the number of components in an
+
+58
+00:02:22.720 --> 00:02:25.669
+integrated circuit every year for at least a decade.
+
+59
+00:02:26.199 --> 00:02:27.710
+In 1975,
+
+60
+00:02:27.839 --> 00:02:30.240
+he revised this prediction to state that the number of
+
+61
+00:02:30.240 --> 00:02:33.869
+components on an integrated circuit would double every two years.
+
+62
+00:02:34.119 --> 00:02:37.270
+This prediction more or less held true until just recently,
+
+63
+00:02:37.580 --> 00:02:38.669
+around 2012.
+
+64
+00:02:39.089 --> 00:02:42.919
+Several companies foresaw this slowdown in the rate Moore's law predicted
+
+65
+00:02:42.919 --> 00:02:46.800
+and began to investigate alternative ways to increase computing power.
+
+66
+00:02:47.169 --> 00:02:48.360
+As the saying goes,
+
+67
+00:02:48.529 --> 00:02:50.559
+necessity is the mother of innovation,
+
+68
+00:02:50.770 --> 00:02:54.179
+and so it was in this way that multi-core processors were born.
+
+69
+00:02:55.100 --> 00:02:58.800
+This looked like a clever way to solve the bounding problems of Moore's Law,
+
+70
+00:02:59.020 --> 00:03:01.539
+but computer scientists soon found themselves facing
+
+71
+00:03:01.539 --> 00:03:03.169
+down the limits of another law,
+
+72
+00:03:03.460 --> 00:03:04.350
+Amdahl's Law,
+
+73
+00:03:04.699 --> 00:03:07.240
+named after computer architect Jean Amdahl.
+
+74
+00:03:07.699 --> 00:03:11.210
+Amdahl's law describes a way in which to model the potential performance
+
+75
+00:03:11.210 --> 00:03:15.009
+gains from implementing the solution to a problem in a parallel manner.
+
+76
+00:03:15.500 --> 00:03:16.229
+Simply put,
+
+77
+00:03:16.419 --> 00:03:18.729
+it states that the gains are bounded by how much
+
+78
+00:03:18.729 --> 00:03:21.259
+of the program must be written in a sequential manner.
+
+79
+00:03:22.399 --> 00:03:23.289
+For example,
+
+80
+00:03:23.639 --> 00:03:26.850
+imagine you were writing a program that was largely GUI based.
+
+81
+00:03:27.080 --> 00:03:29.229
+A user is presented with an interface,
+
+82
+00:03:29.440 --> 00:03:30.679
+clicks on some buttons,
+
+83
+00:03:30.759 --> 00:03:32.000
+and stuff happens.
+
+84
+00:03:32.360 --> 00:03:34.410
+This type of program is bounded by one
+
+85
+00:03:34.410 --> 00:03:36.949
+very large sequential portion of the pipeline,
+
+86
+00:03:37.199 --> 00:03:38.350
+human interaction.
+
+87
+00:03:38.679 --> 00:03:41.470
+No matter how many cores you make available to this program,
+
+88
+00:03:41.580 --> 00:03:45.720
+it will always be bounded by how quickly the user can interact with the interface.
+
+89
+00:03:46.550 --> 00:03:48.449
+Now consider a different example,
+
+90
+00:03:48.470 --> 00:03:49.949
+calculating digits of pi.
+
+91
+00:03:50.710 --> 00:03:54.149
+Thanks to a class of algorithms called spigot algorithms,
+
+92
+00:03:54.270 --> 00:03:56.740
+this problem is called embarrassingly parallel,
+
+93
+00:03:56.910 --> 00:03:57.259
+which,
+
+94
+00:03:57.399 --> 00:03:58.630
+despite sounding made up,
+
+95
+00:03:58.789 --> 00:04:03.509
+is a technical term which means that it can easily be divided into parallel tasks.
+
+96
+00:04:03.639 --> 00:04:04.460
+In this case,
+
+97
+00:04:04.830 --> 00:04:08.539
+significant gains can be made by making more cores available to your program,
+
+98
+00:04:08.710 --> 00:04:11.869
+and your new problem becomes how to combine and store the results.
+
+99
+00:04:12.820 --> 00:04:16.619
+Amdahl's law helps us understand the difference between these two problems
+
+100
+00:04:16.820 --> 00:04:19.459
+and can help us decide whether parallelization is the
+
+101
+00:04:19.459 --> 00:04:22.299
+right way to address performance concerns in our system.
