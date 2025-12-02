@@ -26,12 +26,9 @@ function setupTrack() {
     // Example VTT cue text: "<p id='p2'>Here is the second paragraph...</p>"
     // Or simply plain text "p2" to reference paragraph with data-para-id.
     function mapCues() {
-        console.log("hello");
         for (let i = 0; i < track.cues.length; i++) {
             const cue = track.cues[i];
-            console.log("cue", cue);
             const key = cue.text;
-            console.log("key", key);
             const el = document.getElementById(key);
             cueToElements.set(key, el || null);
             // attach the cue object for easy lookup
