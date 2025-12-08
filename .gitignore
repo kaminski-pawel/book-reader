@@ -1,0 +1,40 @@
+# wsl2
+**/*:Zone.Identifier
+
+# jupyter book
+_build/
+
+#### 
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Snowpack dependency directory (https://snowpack.dev/)
+web_modules/
+
+# Optional npm cache directory
+.npm
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
