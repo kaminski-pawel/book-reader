@@ -1,5 +1,7 @@
 version: 1
 project:
+  plugins:
+    - plugin.mjs
   # title:
   # description:
   keywords: []

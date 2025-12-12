@@ -2,6 +2,10 @@
 
 Concurrency is an interesting word because it means different things to different people in our field. In addition to “concurrency,” you may have heard the words, “asynchronous,” “parallel,” or “threaded” bandied about. Some people take these words to mean the same thing, and other people very specifically delineate between each of those words. If we’re to spend an entire book’s worth of time discussing concurrency, it would be beneficial to first spend some time discussing what we mean when we say “concurrency.”
 
+:::{checkitout} hey
+hello
+:::
+
 We’ll spend some time on the philosophy of concurrency in Chapter 2, but for now let’s adopt a practical definition that will serve as the foundation of our understanding.
 
 When most people use the word “concurrent,” they’re usually referring to a process that occurs simultaneously with one or more processes. It is also usually implied that all of these processes are making progress at about the same time. Under this definition, an easy way to think about this are people. You are currently reading this sentence while others in the world are simultaneously living their lives. They are existing concurrently to you.
@@ -27,3 +31,4 @@ For example, imagine you were writing a program that was largely GUI based: a us
 Now consider a different example, calculating digits of pi. Thanks to a class of algorithms called spigot algorithms, this problem is called embarrassingly parallel, which — despite sounding made up — is a technical term which means that it can easily be divided into parallel tasks. In this case, significant gains can be made by making more cores available to your program, and your new problem becomes how to combine and store the results.
 
 Amdahl’s law helps us understand the difference between these two problems, and can help us decide whether parallelization is the right way to address performance concerns in our system.
+
